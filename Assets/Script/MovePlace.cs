@@ -10,6 +10,13 @@ public class MovePlace : MonoBehaviour {
 	private float YPos;
 	private Vector3 screenPoint, offset;
 
+	private Scoring scoringSystem;
+
+	private void Awake()
+	{
+		scoringSystem = FindObjectOfType<Scoring>();
+	}
+
 	// Use this for initialization
 	void Start () {
 		int index = Random.Range(0, listSprite.Length); // Randoming Something
@@ -24,6 +31,8 @@ public class MovePlace : MonoBehaviour {
 	void TrashMovement(){
 		// Vector3 direction = -transform.right * speed * Time.deltaTime;
 		// transform.position = transform.position + direction;
+
+		if (!GameManager.Instance.IsMoving) return;
 
 		float XDir = (speed * Time.deltaTime * -1f) + transform.position.x;
 		transform.position = new Vector3(XDir, transform.position.y);
@@ -43,5 +52,21 @@ public class MovePlace : MonoBehaviour {
 
 	void OnMouseUp(){
 		transform.position = new Vector3(transform.position.x, YPos, transform.position.z);
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision)
+	{
+		if (collision.CompareTag(gameObject.tag))
+		{
+			scoringSystem.AddingScore(true);
+
+			Destroy(gameObject);
+		}
+		else 
+		{
+			scoringSystem.AddingScore(false);
+
+			Destroy(gameObject);
+		}
 	}
 }

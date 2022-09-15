@@ -13,6 +13,7 @@ public class TrashGenerator : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		currentTime = delayTime;
+		GameManager.Instance.IsMoving = true;
 	}
 	
 	// Update is called once per frame
@@ -20,11 +21,11 @@ public class TrashGenerator : MonoBehaviour {
 		currentTime -= Time.deltaTime;
 		if (currentTime <= 0.0f)
 		{
+			currentTime = delayTime;
+
 			int randomIndex = Random.Range(0, listTrash.Length);
 			GameObject objectToCreate = listTrash[randomIndex];
-			Instantiate(objectToCreate, objectToCreate.transform.position, objectToCreate.transform.rotation);
-
-			currentTime = delayTime;
+			Instantiate(objectToCreate, transform.position, objectToCreate.transform.rotation);
 		}
 	}
 }
