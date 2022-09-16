@@ -13,6 +13,7 @@ public class GameOver : MonoBehaviour
 	private void Start()
 	{
 		_currentTime = timerCountDown;
+		ShowingScore();
 	}
 
 	private void Update()
@@ -29,6 +30,13 @@ public class GameOver : MonoBehaviour
 		{
 			GameManager.Instance.LoadSceneSingle(0);
 		}
+	}
+
+	public void ShowingScore()
+	{
+		Scoring scoring = FindObjectOfType<Scoring>();
+		scoreText.text = $"Score: {scoring.score}";
+
 	}
 
     public void RetryButton()
